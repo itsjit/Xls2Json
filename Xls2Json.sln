@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console", "Console\Console.csproj", "{14DDA7E5-F888-4C85-B9A9-EC5487445A4A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xls2Json", "Xls2Json\Xls2Json.csproj", "{23FFB1EE-C10E-4AC7-BD04-F54E89862FE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "WebHost\WebHost.csproj", "{2A257330-C725-43AD-9C6C-41CB2592F8C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14DDA7E5-F888-4C85-B9A9-EC5487445A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DDA7E5-F888-4C85-B9A9-EC5487445A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DDA7E5-F888-4C85-B9A9-EC5487445A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DDA7E5-F888-4C85-B9A9-EC5487445A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FFB1EE-C10E-4AC7-BD04-F54E89862FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FFB1EE-C10E-4AC7-BD04-F54E89862FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FFB1EE-C10E-4AC7-BD04-F54E89862FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FFB1EE-C10E-4AC7-BD04-F54E89862FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A257330-C725-43AD-9C6C-41CB2592F8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A257330-C725-43AD-9C6C-41CB2592F8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A257330-C725-43AD-9C6C-41CB2592F8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A257330-C725-43AD-9C6C-41CB2592F8C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3B528E9-4F9C-4685-9781-A75691F947E1}
+	EndGlobalSection
+EndGlobal

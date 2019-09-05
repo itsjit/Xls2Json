@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Xls2Json": {
+      "commandName": "Project",
+      "commandLineArgs": "\".\\Data\\ToolUsageData_201900902.xlsx\""
+    }
+  }
+}
