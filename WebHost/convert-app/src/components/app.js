@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,16 +9,16 @@ import FileButton from './file-button';
 import JsonArea from './json-area';
 import Footer from './footer';
 
-const isLoading = state => (state.isLoading ? true : false);
-const hasResult = state => (state.result ? true : false);
-const hasFile = state => (state.selectedFile ? true : false);
-const getFileName = state => (state.selectedFile ? state.selectedFile.name : '');
-const getResultFileName = state => (hasResult(state) && hasFile(state) ? `${state.selectedFile.name}.json` : '');
-const getResultJson = state => (state.result ? JSON.stringify() : '');
-const getResultJsonToDisplay = state => (state.result ? JSON.stringify(state.result, null, 2) : '');
-const getResultHref = state =>
-  state.result ? 'data:text/plain;charset=utf-8,' + encodeURIComponent(getResultJson(state)) : '';
-const copyToClipboard = state => navigator.clipboard.writeText(getResultJsonToDisplay(state));
+const hasResult = result => (result ? true : false);
+const hasFile = selectedFile => (selectedFile ? true : false);
+const getFileName = selectedFile => (selectedFile ? selectedFile.name : '');
+const getResultFileName = (selectedFile, result) =>
+  hasResult(result) && hasFile(selectedFile) ? `${selectedFile.name}.json` : '';
+const getResultJson = result => (result ? JSON.stringify() : '');
+const getResultJsonToDisplay = result => (result ? JSON.stringify(result, null, 2) : '');
+const getResultHref = result =>
+  result ? 'data:text/plain;charset=utf-8,' + encodeURIComponent(getResultJson(result)) : '';
+const copyToClipboard = result => navigator.clipboard.writeText(getResultJsonToDisplay(result));
 
 const checkFileCount = event => {
   let files = event.target.files;
@@ -46,100 +46,72 @@ const checkFileSize = event => {
   return true;
 };
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedFile: null,
-      loaded: 0,
-      isLoading: false,
-      result: null
-    };
-  }
+const App = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
-  onFileSelected = event => {
+  const onFileSelected = event => {
     var file = event.target.files[0];
     if (checkFileCount(event) && checkFileSize(event)) {
-      this.setState({
-        selectedFile: file,
-        loaded: 0,
-        result: null
-      });
+      setSelectedFile(file);
+      setResult(null);
     }
   };
-  
-  convert = () => {
+
+  const convert = selectedFile => {
     const data = new FormData();
-    data.append('file', this.state.selectedFile);
+    data.append('file', selectedFile);
     axios
       .post('/api/convert/toJson', data, {
         onUploadProgress: ProgressEvent => {
-          this.setState({
-            loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
-            isLoading: true,
-            result: null
-          });
+          setIsLoading(true);
+          setResult(null);
         }
       })
       .then(res => {
         // then print response status
-        this.setState({
-          result: res.data,
-          isLoading: false
-        });
+        setResult(res.data);
+        setIsLoading(false);
       })
       .catch(err => {
         console.error(err);
-        this.setState({
-          result: null,
-          isLoading: false
-        });
+        setResult(null);
+        setIsLoading(false);
         // then print response status
         toast.error('Conversion has failed');
       });
   };
 
-  render() {
-    return (
-      <div>
-        {/* <a href='https://github.com/itsjit/Xls2Json' className='github-ribbon'>
-          <img
-            width='149'
-            height='149'
-            src='https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149'
-            className='attachment-full size-full'
-            alt='Fork me on GitHub'
-            data-recalc-dims='1'
-          ></img>
-        </a> */}
-        <section className="hero">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">XLS to JSON converter</h1>
-              <ToastContainer />
-              <FileButton onClick={this.onFileSelected} />
-              <ConvertButton
-                fileName={getFileName(this.state)}
-                isLoading={isLoading(this.state)}
-                onClick={this.convert}
-              />
-              <JsonArea
-                isLoading={isLoading(this.state)}
-                content={getResultJsonToDisplay(this.state)}
-                onCopyToClipboardClick={() => copyToClipboard(this.state)}
-              />
-              <DownloadButton
-                fileName={getResultFileName(this.state)}
-                isDisabled={hasResult(this.state)}
-                href={getResultHref(this.state)}
-              />
-            </div>
+  return (
+    <div>
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">XLS to JSON converter</h1>
+            <ToastContainer />
+            <FileButton onClick={onFileSelected} isLoading={isLoading} />
+            <ConvertButton
+              fileName={getFileName(selectedFile)}
+              isLoading={isLoading}
+              onClick={() => convert(selectedFile)}
+            />
+            <JsonArea
+              isLoading={isLoading}
+              content={getResultJsonToDisplay(result)}
+              onCopyToClipboardClick={() => copyToClipboard(result)}
+            />
+            <DownloadButton
+              fileName={getResultFileName(selectedFile, result)}
+              isDisabled={hasResult(result)}
+              href={getResultHref(result)}
+            />
           </div>
-        </section>
-        <Footer />
-      </div>
-    );
-  }
-}
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+};
 
 export default App;

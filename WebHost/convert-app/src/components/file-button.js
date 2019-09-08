@@ -5,7 +5,13 @@ const FileButton = props => {
     <div className="field">
       <div className="file is-large is-boxed has-name">
         <label className="file-label">
-          <input className="file-input" type="file" name="resume" onChange={props.onClick}></input>
+          <input
+            className="file-input"
+            type="file"
+            name="resume"
+            onChange={props.onClick}
+            disabled={props.isLoading}
+          ></input>
           <span className="file-cta">
             <span className="file-icon">
               <i className="fas fa-file-import"></i>
