@@ -2,49 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logic from '../logic';
 
 import DownloadButton from './download-button';
 import ConvertButton from './convert-button';
 import FileButton from './file-button';
 import JsonArea from './json-area';
 import Footer from './footer';
-
-const hasResult = result => (result ? true : false);
-const hasFile = selectedFile => (selectedFile ? true : false);
-const getFileName = selectedFile => (selectedFile ? selectedFile.name : '');
-const getResultFileName = (selectedFile, result) =>
-  hasResult(result) && hasFile(selectedFile) ? `${selectedFile.name}.json` : '';
-const getResultJson = result => (result ? JSON.stringify() : '');
-const getResultJsonToDisplay = result => (result ? JSON.stringify(result, null, 2) : '');
-const getResultHref = result =>
-  result ? 'data:text/plain;charset=utf-8,' + encodeURIComponent(getResultJson(result)) : '';
-const copyToClipboard = result => navigator.clipboard.writeText(getResultJsonToDisplay(result));
-
-const checkFileCount = event => {
-  let files = event.target.files;
-  if (files.length > 1) {
-    const msg = 'Only 1 file can be uploaded at a time';
-    event.target.value = null;
-    toast.warn(msg);
-    return false;
-  }
-  return true;
-};
-const checkFileSize = event => {
-  let files = event.target.files;
-  let size = 2000000;
-  let err = [];
-  for (var x = 0; x < files.length; x++) {
-    if (files[x].size > size) {
-      err[x] = files[x].name + ' is too large, please pick a smaller file\n';
-    }
-  }
-  for (var z = 0; z < err.length; z++) {
-    toast.error(err[z]);
-    event.target.value = null;
-  }
-  return true;
-};
 
 const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -53,7 +17,7 @@ const App = () => {
 
   const onFileSelected = event => {
     var file = event.target.files[0];
-    if (checkFileCount(event) && checkFileSize(event)) {
+    if (logic.checkFileCount(event) && logic.checkFileSize(event)) {
       setSelectedFile(file);
       setResult(null);
     }
@@ -65,21 +29,21 @@ const App = () => {
     axios
       .post('/api/convert/toJson', data, {
         onUploadProgress: ProgressEvent => {
-          setIsLoading(true);
           setResult(null);
+          setIsLoading(true);
         }
       })
-      .then(res => {
+      .then(result => {
         // then print response status
-        setResult(res.data);
+        setResult(result.data);
         setIsLoading(false);
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        console.error(error);
         setResult(null);
         setIsLoading(false);
         // then print response status
-        toast.error('Conversion has failed');
+        toast.error('Conversion has failed' + `${error.message ? error.message : ''}`);
       });
   };
 
@@ -92,19 +56,19 @@ const App = () => {
             <ToastContainer />
             <FileButton onClick={onFileSelected} isLoading={isLoading} />
             <ConvertButton
-              fileName={getFileName(selectedFile)}
+              fileName={logic.getFileName(selectedFile)}
               isLoading={isLoading}
               onClick={() => convert(selectedFile)}
             />
             <JsonArea
               isLoading={isLoading}
-              content={getResultJsonToDisplay(result)}
-              onCopyToClipboardClick={() => copyToClipboard(result)}
+              content={logic.getResultJsonToDisplay(result)}
+              onCopyToClipboardClick={() => logic.copyToClipboard(result)}
             />
             <DownloadButton
-              fileName={getResultFileName(selectedFile, result)}
-              isDisabled={hasResult(result)}
-              href={getResultHref(result)}
+              fileName={logic.getResultFileName(selectedFile, result)}
+              isDisabled={logic.hasResult(result)}
+              href={logic.getResultHref(result)}
             />
           </div>
         </div>
