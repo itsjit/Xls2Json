@@ -35,21 +35,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\" />
-    <Folder Include="wwwroot\dist\static\js\" />
-    <Folder Include="wwwroot\dist\static\media\" />
+    <Folder Include="convert-app\build\static\" />
+    <Folder Include="convert-app\build\static\css\" />
+    <Folder Include="convert-app\build\static\js\" />
+    <Folder Include="convert-app\build\static\media\" />
+    <Folder Include="wwwroot" />
   </ItemGroup>
 
-  <Target Name="RunWebpack" BeforeTargets="BeforeBuild" Condition="'$(DeployTarget)' == 'MSDeployPublish'">
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <ItemGroup>
-      <FilesToDelete Include="wwwroot\dist\**\*" />
+      <FilesToDelete Include="wwwroot\static\**\*" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
-    <Exec Command="dotnet restore" />
     <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" />
     <!-- <Exec Command="nodejs node_modules/node-sass/scripts/install.js" WorkingDirectory="$(SpaFolder)" /> -->
     <Exec Command="npm rebuild node-sass" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
+    <Exec Command="npm run postbuild" WorkingDirectory="$(SpaFolder)" />
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
   </Target>
+
 </Project>

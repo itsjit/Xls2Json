@@ -72,15 +72,6 @@ namespace Xls2Json.WebHost
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xls2Json API v1");
                 c.RoutePrefix = "api";
             });
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}");
-                routes.MapSpaFallbackRoute(
-                    "spa-fallback",
-                    new { controller = "Home", action = "Index" });
-            });
         }
     }
 }
