@@ -42,7 +42,7 @@
     <Folder Include="wwwroot" />
   </ItemGroup>
 
-  <Target Name="CleanOuput" BeforeTargets="ComputeFilesToPublish">
+  <Target Name="CleanOuput" BeforeTargets="PublishRunWebpack">
     <ItemGroup>
       <FilesToDelete Include="wwwroot\**\*" />
     </ItemGroup>
