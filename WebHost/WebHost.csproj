@@ -49,7 +49,7 @@
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
     <!-- <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" /> -->
-    <!-- <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" /> -->
+    <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run beforebuild" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run afterbuild" WorkingDirectory="$(SpaFolder)" />
