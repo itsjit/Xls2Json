@@ -4,8 +4,12 @@ var fs = require('fs');
 function verify() {
   const os = process.platform.toLowerCase();
   console.log(`[verify-sass] Your operating system: ${os}`);
-
-  return fs.readdirSync('./node_modules/node-sass/vendor').filter(fn => fn.startsWith(os)).length ? true : false;
+  try {
+    return fs.readdirSync('./node_modules/node-sass/vendor').filter(fn => fn.startsWith(os)).length ? true : false;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 }
 
 function rebuild() {
