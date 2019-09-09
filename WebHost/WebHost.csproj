@@ -48,12 +48,11 @@
       <FilesToDelete Include="wwwroot\static\**\*" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
-    <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" />
-    <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" />
-    <!-- <Exec Command="nodejs node_modules/node-sass/scripts/install.js" WorkingDirectory="$(SpaFolder)" /> -->
-    <Exec Command="npm rebuild node-sass" WorkingDirectory="$(SpaFolder)" />
+    <!-- <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" /> -->
+    <!-- <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" /> -->
+    <Exec Command="npm run beforebuild" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
-    <Exec Command="npm run postbuild" WorkingDirectory="$(SpaFolder)" />
+    <Exec Command="npm run afterbuild" WorkingDirectory="$(SpaFolder)" />
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="wwwroot\**" />
