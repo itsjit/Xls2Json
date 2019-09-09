@@ -42,6 +42,19 @@
     <Folder Include="wwwroot" />
   </ItemGroup>
 
+  <Target Name="CleanOuput" BeforeTargets="ComputeFilesToPublish">
+    <ItemGroup>
+      <FilesToDelete Include="wwwroot\**\*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" BeforeTargets="ComputeFilesToPublish">
+    <!-- <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" /> -->
+    <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" />
+    <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
+  </Target>
+
   <Target Name="CopyToOutput" AfterTargets="PublishRunWebpack">
     <ItemGroup>
       <FilesToCopy Include="$(SpaFolder)\build\**\*" />
@@ -49,16 +62,7 @@
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="wwwroot\%(RecursiveDir)" />
   </Target>
 
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <ItemGroup>
-      <FilesToDelete Include="wwwroot\**\*" />
-    </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
-    <!-- <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" /> -->
-    <Exec Command="npm install" WorkingDirectory="$(SpaFolder)" />
-    <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
-    <!-- Include the newly-built files in the publish output -->
+  <Target Name="IncludeWebpackFiles" AfterTargets="CopyToOutput">
     <ItemGroup>
       <DistFiles Include="wwwroot\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
