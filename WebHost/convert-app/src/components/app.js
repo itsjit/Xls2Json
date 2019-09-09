@@ -43,7 +43,7 @@ const App = () => {
         setResult(null);
         setIsLoading(false);
         // then print response status
-        toast.error('Conversion has failed' + `${error.message ? error.message : ''}`);
+        toast.error(`Conversion has failed${error.message ? error.message : ''}`);
       });
   };
 
