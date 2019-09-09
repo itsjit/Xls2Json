@@ -4,6 +4,9 @@ using Xls2Json.Exceptions;
 
 namespace Xls2Json.WebHost.Controllers
 {
+    /// <summary>
+    /// Conversions.
+    /// </summary>
     [Route("api/convert")]
     [ApiController]
     public class ConvertController : ControllerBase
