@@ -51,7 +51,7 @@
 
   <Target Name="PublishRunWebpack" BeforeTargets="ComputeFilesToPublish">
     <!-- <Exec Command="npm update" WorkingDirectory="$(SpaFolder)" /> -->
-    <Exec Command="npm i -g npm@5.7.1" WorkingDirectory="$(SpaFolder)" />
+    <!-- <Exec Command="npm i -g npm@5.7.1" WorkingDirectory="$(SpaFolder)" /> -->
     <Exec Command="npm ci" WorkingDirectory="$(SpaFolder)" />
     <Exec Command="npm run build" WorkingDirectory="$(SpaFolder)" />
   </Target>
