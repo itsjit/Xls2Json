@@ -82,6 +82,7 @@ namespace Xls2Json.WebHost
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
