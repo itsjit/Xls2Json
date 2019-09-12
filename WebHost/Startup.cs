@@ -82,13 +82,26 @@ namespace Xls2Json.WebHost
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xls2Json API v1");
                 c.RoutePrefix = "api";
+            });
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "convert-app";
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:5005");
+                }
             });
         }
     }
