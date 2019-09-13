@@ -1,28 +1,28 @@
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
+import { Form, Segment } from 'semantic-ui-react';
 
 const JsonArea = props => {
   return (
-    <div className="field code">
-      <div className={'control' + (props.isLoading ? ' is-loading' : '')}>
+    <Segment basic loading={props.isLoading} disabled={!props.content}>
+      <Form className="code">
         <Textarea
           className="textarea"
           minRows={3}
           maxRows={20}
+          style={{ minHeight: 100 }}
           value={props.content}
           readOnly
         ></Textarea>
-      </div>
-      <button
-        className={'button button-copy' + (props.content ? '' : ' is-hidden')}
-        disabled={!props.content}
-        onClick={props.onCopyToClipboardClick}
-      >
-        <span className="icon is-medium">
-          <i className="fas fa-paste"></i>
-        </span>
-      </button>
-    </div>
+        <button
+          className={'ui icon button button-copy'}
+          onClick={props.onCopyToClipboardClick}
+          disabled={!props.content}
+        >
+          <i className="copy icon"></i>
+        </button>
+      </Form>
+    </Segment>
   );
 };
 

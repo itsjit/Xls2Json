@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logic from '../logic';
+import 'semantic-ui-css/semantic.min.css';
+import { Container, Header, Segment } from 'semantic-ui-react';
 
 import DownloadButton from './download-button';
 import ConvertButton from './convert-button';
@@ -48,33 +50,32 @@ const App = () => {
   };
 
   return (
-    <div>
-      <section className="hero">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">XLS to JSON converter</h1>
-            <ToastContainer />
-            <FileButton onClick={onFileSelected} isLoading={isLoading} />
-            <ConvertButton
-              fileName={logic.getFileName(selectedFile)}
-              isLoading={isLoading}
-              onClick={() => convert(selectedFile)}
-            />
-            <JsonArea
-              isLoading={isLoading}
-              content={logic.getResultJsonToDisplay(result)}
-              onCopyToClipboardClick={() => logic.copyToClipboard(result)}
-            />
-            <DownloadButton
-              fileName={logic.getResultFileName(selectedFile, result)}
-              isDisabled={logic.hasResult(result)}
-              href={logic.getResultHref(result)}
-            />
-          </div>
-        </div>
-      </section>
+    <Container>
+      <Container>
+        <Segment basic>
+          <Header as="h1">XLS to JSON converter</Header>
+        </Segment>
+
+        <ToastContainer />
+        <FileButton onClick={onFileSelected} isLoading={isLoading} />
+        <ConvertButton
+          fileName={logic.getFileName(selectedFile)}
+          isLoading={isLoading}
+          onClick={() => convert(selectedFile)}
+        />
+        <JsonArea
+          isLoading={isLoading}
+          content={logic.getResultJsonToDisplay(result)}
+          onCopyToClipboardClick={() => logic.copyToClipboard(result)}
+        />
+        <DownloadButton
+          fileName={logic.getResultFileName(selectedFile, result)}
+          isDisabled={!logic.hasResult(result)}
+          href={logic.getResultHref(result)}
+        />
+      </Container>
       <Footer />
-    </div>
+    </Container>
   );
 };
 

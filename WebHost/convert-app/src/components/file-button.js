@@ -1,26 +1,21 @@
 import React from 'react';
+import { Button, Segment } from 'semantic-ui-react';
 
 const FileButton = props => {
+  const fileInputRef = React.createRef();
   return (
-    <div className="field">
-      <div className="file is-large is-boxed has-name">
-        <label className="file-label">
-          <input
-            className="file-input"
-            type="file"
-            name="resume"
-            onChange={props.onClick}
-            disabled={props.isLoading}
-          ></input>
-          <span className="file-cta">
-            <span className="file-icon">
-              <i className="fas fa-file-import"></i>
-            </span>
-            <span className="file-label">Open file…</span>
-          </span>
-        </label>
-      </div>
-    </div>
+    <Segment basic>
+      <Button
+        basic
+        size="huge"
+        content="Open File..."
+        labelPosition="left"
+        icon="upload"
+        onClick={() => fileInputRef.current.click()}
+        disabled={props.isLoading}
+      />
+      <input ref={fileInputRef} type="file" hidden onChange={props.onClick} />
+    </Segment>
   );
 };
 

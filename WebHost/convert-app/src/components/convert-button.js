@@ -1,26 +1,23 @@
 import React from 'react';
+import { Button, Icon, Segment } from 'semantic-ui-react';
 
 const ConvertButton = props => {
   return (
-    <div className="field has-addons">
-      <div className="control">
-        <span className={'file-cta input is-large file-name' + (props.fileName ? '' : ' is-hidden')}>
-          {props.fileName}
-        </span>
-      </div>
-      <div className="control">
-        <button
-          className={'button is-large' + (props.isLoading ? ' is-loading' : '')}
+    <Segment basic>
+      <Button as="div" labelPosition="right">
+        <Button
+          basic
+          size="huge"
           onClick={props.onClick}
-          disabled={!props.fileName}
+          loading={props.isLoading}
+          disabled={props.fileName ? false : true}
         >
-          <span className="icon is-medium">
-            <i className="fas fa-sync-alt"></i>
-          </span>
-          <span>Convert</span>
-        </button>
-      </div>
-    </div>
+          <Icon name="refresh" />
+          Convert
+        </Button>
+        <label className={'ui label basic' + (props.fileName ? '' : ' hidden')}>{props.fileName}</label>
+      </Button>
+    </Segment>
   );
 };
 

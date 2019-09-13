@@ -5,7 +5,7 @@ const hasFile = selectedFile => (selectedFile ? true : false);
 const getFileName = selectedFile => (selectedFile ? selectedFile.name : '');
 const getResultFileName = (selectedFile, result) =>
   hasResult(result) && hasFile(selectedFile) ? `${selectedFile.name}.json` : '';
-const getResultJson = result => (result ? JSON.stringify() : '');
+const getResultJson = result => (result ? JSON.stringify(result, null, 2) : '');
 const getResultJsonToDisplay = result => (result ? JSON.stringify(result, null, 2) : '');
 const getResultHref = result =>
   result ? 'data:text/plain;charset=utf-8,' + encodeURIComponent(getResultJson(result)) : '';

@@ -1,27 +1,17 @@
 import React from 'react';
+import { Button, Icon, Segment } from 'semantic-ui-react';
 
 const DownloadButton = props => {
   return (
-    <div className="field has-addons">
-      <div className="control">
-        <span className={'file-cta input is-large file-name' + (props.fileName ? '' : ' is-hidden')}>
-          {props.fileName}
-        </span>
-      </div>
-      <div className="control">
-        <a
-          className="button is-large"
-          href={props.href}
-          download={props.fileName}
-          disabled={!props.isDisabled}
-        >
-          <span className="icon is-medium">
-            <i className="fas fa-cloud-download-alt"></i>
-          </span>
-          <span>Download</span>
-        </a>
-      </div>
-    </div>
+    <Segment basic>
+      <Button as="div" labelPosition="right">
+        <Button as="a" basic size="huge" download={props.fileName} href={props.href} disabled={props.isDisabled}>
+          <Icon name="cloud download" />
+          Download
+        </Button>
+        <label className={'ui label basic' + (props.fileName ? '' : ' hidden')}>{props.fileName}</label>
+      </Button>
+    </Segment>
   );
 };
 
