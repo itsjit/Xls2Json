@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Textarea from 'react-textarea-autosize';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form, Popup } from 'semantic-ui-react';
 
 const JsonArea = props => {
+  var [isOpen, setIsOpen] = useState(props.content ? true : false);
+  React.useEffect(() => {
+    setIsOpen(props.content ? true : false);
+  }, [props.content]);
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <Segment basic loading={props.isLoading} disabled={!props.content}>
+    <div>
       <Form className="code">
         <Textarea
           className="textarea"
@@ -14,15 +22,25 @@ const JsonArea = props => {
           value={props.content}
           readOnly
         ></Textarea>
-        <button
-          className={'ui icon button button-copy'}
-          onClick={props.onCopyToClipboardClick}
-          disabled={!props.content}
-        >
-          <i className="copy icon"></i>
-        </button>
+        <Popup
+          className="button-copy"
+          content="Copy the JSON to clipboard"
+          position="top right"
+          on="click"
+          open={isOpen}
+          onClose={handleClose}
+          trigger={
+            <button
+              className={'ui icon button button-copy'}
+              onClick={props.onCopyToClipboardClick}
+              disabled={!props.content}
+            >
+              <i className="copy icon"></i>
+            </button>
+          }
+        />
       </Form>
-    </Segment>
+    </div>
   );
 };
 

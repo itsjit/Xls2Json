@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Icon, Segment } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 const ConvertButton = props => {
   return (
-    <Segment basic>
+    <div>
       <Button as="div" labelPosition="right">
         <Button
           basic
@@ -17,7 +17,7 @@ const ConvertButton = props => {
         </Button>
         <label className={'ui label basic' + (props.fileName ? '' : ' hidden')}>{props.fileName}</label>
       </Button>
-    </Segment>
+    </div>
   );
 };
 
