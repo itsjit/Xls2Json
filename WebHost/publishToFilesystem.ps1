@@ -1,4 +1,6 @@
 param(
+    [Parameter(Mandatory, Position = 0)]
+    [ValidateNotNullOrEmpty()]
     [string] 
     $ProjectFile = "WebHost.csproj"
 )
@@ -10,20 +12,9 @@ function Get-MSBuildPath($Version) {
     return $path
 }
 
-$MSBuild = Get-MSBuildPath ""
-$MSBuildArgs = New-Object System.Collections.ArrayList
-$MSBuildArgs.Add($ProjectFile)
-$MSBuildArgs.Add("/p:DeployTarget=MSDeployPublish")
-$MSBuildArgs.Add("/p:DeployOnBuild=true")
-$MSBuildArgs.Add("/p:Configuration=Release")
-$MSBuildArgs.Add("/p:BuildBeforePublish=true")
+#$publishDir = "$(Get-Location)\publish"
+$publishDir = "bin\Release\netcoreapp2.2\publish\"
+$MSBuild = Get-MSBuildPath
 
-#$MSBuildArgs.Add("/p:PublishProfile=DefaultPublish")
-$MSBuildArgs.Add("/p:WebPublishMethod=FileSystem")
-$MSBuildArgs.Add("/p:DeleteExistingFiles=True")
-$MSBuildArgs.Add("/p:publishUrl=bin\Release\netcoreapp2.2\publish\")
-#$MSBuildArgs.Add("")
-
-& $MSBuild $MSBuildArgs
-
-
+Invoke-Expression "& '$MSBuild' '$ProjectFile' -t:restore"
+Invoke-Expression "& '$MSBuild' '$ProjectFile' /p:DeployTarget=MSDeployPublish /p:DeployOnBuild=true /p:Configuration=Release /p:BuildBeforePublish=true /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl='$publishDir'"
