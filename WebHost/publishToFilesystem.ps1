@@ -1,8 +1,8 @@
 param(
-    [Parameter(Mandatory, Position = 0)]
+    [Parameter(Position = 0)]
     [ValidateNotNullOrEmpty()]
     [string] 
-    $ProjectFile = "WebHost.csproj"
+    $Path = ".\"
 )
 
 
@@ -12,6 +12,30 @@ function Get-MSBuildPath($Version) {
     return $path
 }
 
+function Resolve-ProjectFile($Path) {
+    # support :\paths relative - shortcut to "$PSScriptRoot\..\.."
+    if ($Path -match '^:\\(.*)$') {
+        $Path = (Resolve-Path (Join-Path "$PSScriptRoot\..\.." $Matches[1])).Path
+    }
+
+    if (Test-Path $Path -Type Leaf) {
+        return $Path
+    }
+
+    if (Test-Path $Path -Type Container) {
+        $Project = @(Get-ChildItem -LiteralPath $Path -Filter *.csproj)
+        
+        switch ($Project.Length) {
+            0 { throw "No csproj found in '$Path'." }
+            1 { return $Project[0].FullName }
+            $_ { throw "Multiple csproj's found in '$Path'." }
+        }
+    }
+
+    throw "'$Path' not found"
+}
+
+$ProjectFile = Resolve-Path $Path
 #$publishDir = "$(Get-Location)\publish"
 $publishDir = "bin\Release\netcoreapp2.2\publish\"
 $MSBuild = Get-MSBuildPath
