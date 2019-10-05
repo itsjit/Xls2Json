@@ -50,10 +50,6 @@ const App = () => {
       });
   };
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('process.env', process.env);
-  }
-
   return (
     <Container>
       <Container>

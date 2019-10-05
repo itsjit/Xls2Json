@@ -1,16 +1,16 @@
 const fs = require('fs');
 
-function readEnvFileContent(path) {
+function readEnvFile(path) {
   if (fs.existsSync(path)) {
     console.debug(`File '${path}' exists.`);
     return fs.readFileSync(path, 'UTF8');
   } else {
-    console.debug(`File '${path}' doesn't exists.`);
+    console.debug(`File '${path}' doesn't exist.`);
     return '';
   }
 }
 
-function writeEnvFileContent(path, content) {
+function writeEnvFile(path, content) {
   fs.writeFile(path, content, 'UTF8', err => {
     if (err) {
       throw err;
@@ -19,30 +19,30 @@ function writeEnvFileContent(path, content) {
   });
 }
 
-function replaceEnvContentProperty(content, propertyName, propertyValue) {
-  var pattern = new RegExp(`\\s*(${propertyName})\\s*=.*`);
-  const lineText = `${propertyName}=${propertyValue}`;
+function replaceEnvVariable(content, variableName, variableValue) {
+  var pattern = new RegExp(`\\s*(${variableName})\\s*=.*`);
+  const lineText = `${variableName}=${variableValue}`;
   if (!content) {
     console.debug(`Content is empty.`);
     return lineText;
   } else if (content.match(pattern)) {
-    console.debug(`Content contains the property.`);
-    var newContent = content.replace(pattern, `$1=${propertyValue}`);
+    console.debug(`Content already contains the variable.`);
+    var newContent = content.replace(pattern, `$1=${variableValue}`);
     console.debug(`Using new value '${lineText}'`);
     return newContent;
   } else {
-    console.debug(`Content doesn't contain the property.`);
+    console.debug(`Content doesn't contain the variable.`);
     return `${content}\n${lineText}`;
   }
 }
 
-function updateEnvFileProperty(path, propertyName, propertyValue) {
-  console.debug(`Using new property value: ${propertyValue}`);
-  writeEnvFileContent(path, replaceEnvContentProperty(readEnvFileContent(path), propertyName, propertyValue));
+function updateEnvFileVariable(path, propertyName, propertyValue) {
+  console.debug(`Using new variable value: ${propertyValue}`);
+  writeEnvFile(path, replaceEnvVariable(readEnvFile(path), propertyName, propertyValue));
 }
 
 try {
-  updateEnvFileProperty(
+  updateEnvFileVariable(
     '.env.local',
     'REACT_APP_BUILD_NUMBER',
     Math.random()
