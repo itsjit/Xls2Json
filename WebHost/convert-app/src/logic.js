@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import i18n from './i18n';
 
 const hasResult = result => (result ? true : false);
 const hasFile = selectedFile => (selectedFile ? true : false);
@@ -14,7 +15,7 @@ const copyToClipboard = result => navigator.clipboard.writeText(getResultJsonToD
 const checkFileCount = event => {
   let files = event.target.files;
   if (files.length > 1) {
-    const msg = 'Only 1 file can be uploaded at a time';
+    const msg = i18n.t('Only 1 file can be uploaded at a time');
     event.target.value = null;
     toast.warn(msg);
     return false;
@@ -27,7 +28,7 @@ const checkFileSize = event => {
   let err = [];
   for (var x = 0; x < files.length; x++) {
     if (files[x].size > size) {
-      err[x] = files[x].name + ' is too large, please pick a smaller file\n';
+      err[x] = i18n.t('{{ filename }} is too large, please pick a smaller file\n', { filename: files[x].name });
     }
   }
   for (var z = 0; z < err.length; z++) {

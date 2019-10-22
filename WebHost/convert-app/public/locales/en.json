@@ -1,0 +1,17 @@
+{
+  "XLS to JSON converter": "XLS to JSON converter",
+  "Click here to select a XLS or CSV file": "Click here to select a XLS or CSV file",
+  "Click here to convert the selected file to JSON": "Click here to convert the selected file to JSON",
+  "Click here to to download the converted JSON file": "Click here to to download the converted JSON file",
+  "Conversion has failed {{ message }}": "Conversion has failed {{ message }}",
+  "Convert": "Convert",
+  "Download": "Download",
+  "Open File...": "Open File...",
+  "Copy the JSON to clipboard": "Copy the JSON to clipboard",
+  "Donate with PayPal button": "Donate with PayPal button",
+  "PayPal - The safer, easier way to pay online!": "PayPal - The safer, easier way to pay online!",
+  "{{ filename }} is too large, please pick a smaller file\n": "{{ filename }} is too large, please pick a smaller file\n",
+  "Only 1 file can be uploaded at a time": "Only 1 file can be uploaded at a time",
+  "en": "English",
+  "cs": "Česky"
+}

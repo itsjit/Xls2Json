@@ -1,7 +1,10 @@
 import React from 'react';
 import { Header, Icon, Grid, Segment } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <Segment basic textAlign="center">
       <Header>&copy; {new Date().getFullYear()} - Itsjit</Header>
@@ -25,8 +28,8 @@ const Footer = () => {
                   src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
                   border="0"
                   name="submit"
-                  title="PayPal - The safer, easier way to pay online!"
-                  alt="Donate with PayPal button"
+                  title={t('PayPal - The safer, easier way to pay online!')}
+                  alt={t('Donate with PayPal button')}
                 />
               </form>
             </div>

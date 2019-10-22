@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
 
 const ConvertButton = props => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Button as="div" labelPosition="right">
@@ -13,7 +16,7 @@ const ConvertButton = props => {
           disabled={props.fileName ? false : true}
         >
           <Icon name="refresh" />
-          Convert
+          {t('Convert')}
         </Button>
         <label className={'ui label basic' + (props.fileName ? '' : ' hidden')}>{props.fileName}</label>
       </Button>

@@ -1,0 +1,17 @@
+{
+  "XLS to JSON converter": "Konvertor z XLS do JSON",
+  "Click here to select a XLS or CSV file": "Klikni sem a vyber XLS nebo CSV soubor",
+  "Click here to convert the selected file to JSON": "Klikni sem pro zahájení konverze vybraného souboru do JSON",
+  "Click here to to download the converted JSON file": "Klikni sem pro stáhnutí zkonvertovaného JSON souboru",
+  "Conversion has failed {{ message }}": "Konverze selhala {{ message }}",
+  "Convert": "Konvertovat",
+  "Download": "Stáhnout",
+  "Open File...": "Otevřít soubor...",
+  "Copy the JSON to clipboard": "Zkopírovat JSON do schránky",
+  "Donate with PayPal button": "Darovat pomocí PayPal",
+  "PayPal - The safer, easier way to pay online!": "PayPal - The safer, easier way to pay online!",
+  "{{ filename }} is too large, please pick a smaller file\n": "Soubor '{{ filename }}' je přliš velký, prosím vyberte menší soubor\n",
+  "Only 1 file can be uploaded at a time": "Je možné nahrát pouze jeden soubor",
+  "en": "English",
+  "cs": "Česky"
+}

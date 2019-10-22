@@ -39,6 +39,7 @@
     <Folder Include="convert-app\build\static\css\" />
     <Folder Include="convert-app\build\static\js\" />
     <Folder Include="convert-app\build\static\media\" />
+    <Folder Include="convert-app\public\locales\" />
     <Folder Include="wwwroot" />
   </ItemGroup>
 

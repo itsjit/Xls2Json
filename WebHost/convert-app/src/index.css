@@ -17,3 +17,8 @@ body {
 .code {
   position: relative;
 }
+
+.language-selector {
+  position: absolute;
+  top: 0;
+}

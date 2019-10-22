@@ -5,18 +5,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import logic from '../logic';
 import 'semantic-ui-css/semantic.min.css';
 import { Container, Header, List, Segment, Label } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
 
 import DownloadButton from './download-button';
 import ConvertButton from './convert-button';
 import FileButton from './file-button';
 import JsonArea from './json-area';
 import Footer from './footer';
+import Language from './language';
 
 const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [downloadClicked, setDownloadClicked] = useState(false);
+  const { t } = useTranslation();
 
   const onFileSelected = event => {
     var file = event.target.files[0];
@@ -46,17 +49,22 @@ const App = () => {
         setResult(null);
         setIsLoading(false);
         // then print response status
-        toast.error(`Conversion has failed${error.message ? error.message : ''}`);
+        toast.error(t('Conversion has failed {{ message }}', { message: error.message ? error.message : '' }));
       });
   };
 
   return (
     <Container>
+      <div className="ui top fixed secondary menu">
+        <div className="right menu">
+          <Language></Language>
+        </div>
+      </div>
       <Container>
         <ToastContainer />
 
         <Segment basic>
-          <Header as="h1">XLS to JSON converter</Header>
+          <Header as="h1">{t('XLS to JSON converter')}</Header>
         </Segment>
 
         <Segment basic>
@@ -73,7 +81,7 @@ const App = () => {
             <List.Item>
               <div hidden={selectedFile || isLoading}>
                 <Label basic color="blue" pointing="left" size="huge">
-                  Click here to select a XLS or CSV file
+                  {t('Click here to select a XLS or CSV file')}
                 </Label>
               </div>
             </List.Item>
@@ -95,7 +103,7 @@ const App = () => {
             <List.Item>
               <div hidden={result || !selectedFile || isLoading}>
                 <Label basic color="blue" pointing="left" size="huge">
-                  Click here to convert the selected file to JSON
+                  {t('Click here to convert the selected file to JSON')}
                 </Label>
               </div>
             </List.Item>
@@ -123,7 +131,7 @@ const App = () => {
             <List.Item>
               <div hidden={!result || isLoading || downloadClicked}>
                 <Label basic color="blue" pointing="left" size="huge">
-                  Click here to to download the converted JSON file
+                  {t('Click here to to download the converted JSON file')}
                 </Label>
               </div>
             </List.Item>
