@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Xls2Json.WebHost.Controllers
 {
     /// <summary>
-    /// Provides cofniguration.
+    /// Provides configuration.
     /// </summary>
     [Route("api/configuration")]
     [ApiController]
     [Produces("text/javascript")]
     public class ConfigurationController : ControllerBase
     {
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
         /// <summary>
         /// Creates new instance of <see cref="ConfigurationController"/>
         /// </summary>
         /// <param name="environment"></param>
-        public ConfigurationController(IHostingEnvironment environment)
+        public ConfigurationController(IWebHostEnvironment environment)
             => this.environment = environment ?? throw new ArgumentNullException(nameof(environment));
 
         /// <summary>

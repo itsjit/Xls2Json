@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Xls2Json.WebHost
@@ -14,7 +15,7 @@ namespace Xls2Json.WebHost
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>
@@ -22,12 +23,12 @@ namespace Xls2Json.WebHost
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-            => Microsoft.AspNetCore.WebHost
-                .CreateDefaultBuilder(args)
-                .ConfigureLogging(builder =>
-                        builder.AddAzureWebAppDiagnostics()
-                    )
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args)
+            => Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureLogging(builder => builder.AddAzureWebAppDiagnostics());
+                });
     }
 }

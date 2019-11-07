@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Hosting;
 
 namespace Xls2Json.WebHost
 {
@@ -39,31 +29,32 @@ namespace Xls2Json.WebHost
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.DescribeAllEnumsAsStrings();
-                c.DescribeAllParametersInCamelCase();
-                c.SwaggerDoc("v1",
-                    new Info
-                    {
-                        Title = "Xls2Json API",
-                        Version = "v1",
-                        Contact = new Contact()
-                        {
-                            Email = "valensm@seznam.cz",
-                            Name = "Martin Valenský"
-                        }
-                    });
-                c.IncludeXmlComments(
-                        Path.Combine(
-                                AppContext.BaseDirectory,
-                                $"{this.GetType().Assembly.GetName().Name}.xml"
-                            )
-                    );
-            });
+            //services.AddMvc();
+            services.AddControllers()
+                .AddNewtonsoftJson();
+            services.AddHealthChecks();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.DescribeAllEnumsAsStrings();
+            //    c.DescribeAllParametersInCamelCase();
+            //    c.SwaggerDoc("v1",
+            //        new Info
+            //        {
+            //            Title = "Xls2Json API",
+            //            Version = "v1",
+            //            Contact = new Contact()
+            //            {
+            //                Email = "valensm@seznam.cz",
+            //                Name = "Martin Valenský"
+            //            }
+            //        });
+            //    c.IncludeXmlComments(
+            //            Path.Combine(
+            //                    AppContext.BaseDirectory,
+            //                    $"{this.GetType().Assembly.GetName().Name}.xml"
+            //                )
+            //        );
+            //});
         }
 
         /// <summary>
@@ -71,7 +62,7 @@ namespace Xls2Json.WebHost
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -83,17 +74,19 @@ namespace Xls2Json.WebHost
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+
+            app.UseRouting();
+
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xls2Json API v1");
+            //    c.RoutePrefix = "api";
+            //});
+            app.UseEndpoints(endpoints =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xls2Json API v1");
-                c.RoutePrefix = "api";
-            });
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHealthChecks("/health");
+                endpoints.MapControllers();
             });
             app.UseSpa(spa =>
             {

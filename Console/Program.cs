@@ -39,11 +39,21 @@ namespace Xls2Json.Console
             catch (ConversionException e)
             {
                 System.Console.Error.WriteLine(ErrorFormat, e.Message);
+#if DEBUG
+                System.Console.WriteLine();
+                System.Console.WriteLine("Press <ENTER> for exit.");
+                System.Console.ReadLine();
+#endif
                 return Error;
             }
             catch (FileNotFoundException e)
             {
                 System.Console.Error.WriteLine(ErrorFormat, e.Message);
+#if DEBUG
+                System.Console.WriteLine();
+                System.Console.WriteLine("Press <ENTER> for exit.");
+                System.Console.ReadLine();
+#endif
                 return Error;
             }
             catch (Exception e)

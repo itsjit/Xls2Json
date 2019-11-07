@@ -37,7 +37,7 @@ function Resolve-ProjectFile($Path) {
 
 $ProjectFile = Resolve-Path $Path
 #$publishDir = "$(Get-Location)\publish"
-$publishDir = "bin\Release\netcoreapp2.2\publish\"
+$publishDir = "bin\Release\netcoreapp3.0\publish\"
 $MSBuild = Get-MSBuildPath
 
 Invoke-Expression "& '$MSBuild' '$ProjectFile' -t:restore"
