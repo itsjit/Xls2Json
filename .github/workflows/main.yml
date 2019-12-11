@@ -1,0 +1,24 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.0.100
+      - name: Build with DotNet
+        run: dotnet build './WebHost/WebHost.csproj' --configuration Release
+      - name: Publish to Folder
+        run: dotnet publish './WebHost/WebHost.csproj' -c Release -o Publish
+      - name: 'Deploy to Azure'
+        uses: azure/webapps-deploy@v1
+        with:
+          app-name: xls2json
+          publish-profile: ${{ secrets.publish_profile }}
+          package: './Publish'
