@@ -1,6 +1,8 @@
 name: Build
 
 on: [push]
+  branches:    
+    - master  
 
 jobs:
   build:
@@ -22,3 +24,6 @@ jobs:
           app-name: xls2json
           publish-profile: ${{ secrets.publish_profile }}
           package: './Publish'
+      - name: Warm up
+        run: Invoke-RestMethod -Uri 'https://xls2json.azurewebsites.net/health'
+        shell: powershell
